@@ -64,6 +64,14 @@ class NcmbUtil {
 
 
   /**
+   * ユーザーを登録する
+   */
+  registerUser(param) {
+    console.log('NcmbUtil registerUser');
+  }
+
+
+  /**
    * ランキングデータに順位の番号を付与する
    * @param {Array}  ランキングデータ
    * @return {Array}  順位を付与したランキングデータ

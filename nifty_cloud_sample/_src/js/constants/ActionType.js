@@ -5,8 +5,8 @@
 // export const UPDATE = 'UPDATE';
 
 // Fetch Data
-export const LOAD_DATA_REQUEST = 'LOAD_DATA_REQUEST';
-export const LOAD_DATA_RESULT = 'LOAD_DATA_RESULT';
+export const LOAD_JSON_DATA_REQUEST = 'LOAD_JSON_DATA_REQUEST';
+export const LOAD_JSON_DATA_RESULT = 'LOAD_JSON_DATA_RESULT';
 
 // Save Score
 export const SAVE_SCORE_REQUEST = 'SAVE_SCORE_REQUEST';

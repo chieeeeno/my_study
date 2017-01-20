@@ -3,11 +3,16 @@ import Axios from 'axios';
 
 import NcmbUtil from '../util/NcmbUtil';
 import * as ActionType from '../constants/ActionType';
+import * as Constants from '../constants/Constants';
 
-export function loadData(url) {
+
+//=============================================
+// To load json data
+//=============================================
+export function loadJsonData(url) {
   console.log(url)
   return dispatch => {
-    dispatch(loadDataRequest());
+    dispatch(loadJsonDataRequest());
     Axios({
       url: url,
       timeout: 20000,
@@ -15,36 +20,42 @@ export function loadData(url) {
       responseType: 'json'
     }).then((response)=>{
       console.log(response.data)
-      dispatch(loadDataResult(response.data))
+      dispatch(loadJsonDataResult(response.data))
     }).catch((error)=>{
       alert('error')
       console.error('loadData',error)
-      dispatch(loadDataResult(false))
+      dispatch(loadJsonDataResult(false))
     })
   };
 }
 
-function loadDataRequest() {
+function loadJsonDataRequest() {
   return {
-    type: ActionType.LOAD_DATA_REQUEST
+    type: ActionType.LOAD_JSON_DATA_REQUEST
   };
 }
 
-function loadDataResult(result) {
+function loadJsonDataResult(result) {
   return {
-    type: ActionType.LOAD_DATA_RESULT,
+    type: ActionType.LOAD_JSON_DATA_RESULT,
     result,
   };
 }
 
 
-const APPLICATION_KEY = 'e1dc60025a6de2e19ab910aa8573bfba16ec34aa8ed93d536327f30ad0adc96c';
-const CLIENT_KEY = 'ca38c6bb12358e887a4f4f8ca756fa979e65eb46439429a33839b26868b2411f';
+
+//=============================================
+// To save score data to Nifty
+//=============================================
 export function saveScore(_data,_callback) {
   console.log('saveScore()',_data)
   return dispatch => {
     dispatch(saveScoreRequest());
-    let ncmbUtil = new NcmbUtil(APPLICATION_KEY,CLIENT_KEY,'ScroeClass');
+    let ncmbUtil = new NcmbUtil(
+      Constants.APPLICATION_KEY,
+      Constants.CLIENT_KEY,
+      Constants.DATA_CLASS_NAME
+    );
     ncmbUtil.saveScore({
       level:_data.level,
       username:_data.username,
@@ -72,12 +83,15 @@ function saveScoreResult() {
 }
 
 
+
+//=============================================
+// To load the score data from Nifty
+//=============================================
 export function loadRanking() {
   console.log('loadRanking()')
   return dispatch => {
     dispatch(loadRankingRequest());
     let ncmbUtil = new NcmbUtil(APPLICATION_KEY,CLIENT_KEY,'ScroeClass');
-    
     ncmbUtil.loadRanking().then((response)=>{
       console.log('ランキングの取得に成功しました。');
       console.log(response);
@@ -86,7 +100,6 @@ export function loadRanking() {
       console.log('ランキングの取得に失敗しました。エラー:' + err); 
       console.log(err)
     })
-    
   };
 }
 
@@ -104,6 +117,38 @@ function loadRankingResult(result) {
 }
 
 
+//=============================================
+// To register for Nifty
+//=============================================
+
+export function registerUser() {
+  console.log('registerUser()')
+  return dispatch => {
+    dispatch(registerUserRequest());
+    let ncmbUtil = new NcmbUtil(APPLICATION_KEY,CLIENT_KEY,'ScroeClass');
+    // ncmbUtil.loadRanking().then((response)=>{
+    //   console.log('ユーザー登録に成功しました。');
+    //   console.log(response);
+    //   dispatch(lregisterUserResult(response))
+    // },(err)=>{
+    //   console.log('ユーザー登録に失敗しました。エラー:' + err); 
+    //   console.log(err)
+    // })
+  };
+}
+
+function registerUserRequest() {
+  return {
+    type: ActionType.LOAD_RANKING_REQUEST
+  };
+}
+
+function lregisterUserResult(result) {
+  return {
+    type: ActionType.LOAD_RANKING_RESULT,
+    result
+  };
+}
 
 
 

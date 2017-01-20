@@ -9,14 +9,14 @@ export default function SampleReducer(state = initialState, action) {
   let resData;
   let rankingData;
   switch (action.type) {
-  case ActionType.LOAD_DATA_REQUEST: {  //Fetch Data リクエスト
-    console.log(ActionType.REQUEST)
+  case ActionType.LOAD_JSON_DATA_REQUEST: {  //Fetch Data リクエスト
+    console.log(ActionType.LOAD_JSON_DATA_REQUEST)
     break;
     // return Object.assign({}, state, {
     //   items: state.items
     // });
   }
-  case ActionType.LOAD_DATA_RESULT: {   //Fetch Data リザルト
+  case ActionType.LOAD_JSON_DATA_RESULT: {   //Fetch Data リザルト
     if(action.result) {
       resData = action.result;
     }else{
@@ -26,6 +26,7 @@ export default function SampleReducer(state = initialState, action) {
       items: resData
     });
   }
+  
   
   case ActionType.SAVE_SCORE_REQUEST: {
     console.log(ActionType.SAVE_SCORE_REQUEST)

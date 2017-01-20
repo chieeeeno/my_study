@@ -26,6 +26,7 @@ export default class AppMain extends React.Component {
           <ul>
             <li><Link to="game">ゲーム</Link></li>
             <li><Link to="ranking">ランキング</Link></li>
+            <li><Link to="register">ユーザー登録</Link></li>
           </ul>
           {_this.props.children}
         </section>
