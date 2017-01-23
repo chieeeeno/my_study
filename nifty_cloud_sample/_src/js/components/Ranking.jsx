@@ -8,7 +8,7 @@ import * as SampleActions from '../actions/SampleActions'
 // import ons from 'onsenui';
 import { Button } from 'react-onsenui';
 
-let _this;
+let self;
 class Ranking extends React.Component {
   // life cycle methods
   // Mounting =========================
@@ -17,7 +17,7 @@ class Ranking extends React.Component {
     this.state = {
       rankingData:[]
     }
-    _this = this;
+    self = this;
   }
 
   // componentWillMount() {}
@@ -25,13 +25,15 @@ class Ranking extends React.Component {
   render() {
     return(
       <div>
-        <Button style={{margin: '6px'}} onClick={()=>this._loadRanking()}>ランキング取得</Button>
-        {this._renderRanking(this.state.rankingData)}
+        <Button style={{margin: '6px'}} onClick={()=>self._loadRanking()}>ランキング取得</Button>
+        {self._renderRanking(self.state.rankingData)}
       </div>
     )
   }
 
-  // componentDidMount() {}
+  componentDidMount() {
+    self._loadRanking();
+  }
 
 
 
@@ -52,10 +54,10 @@ class Ranking extends React.Component {
   // methods =========================
   _loadRanking() {
     console.log('_loadRanking')
-    this.props.rankingActions.loadRanking()
+    self.props.rankingActions.loadRanking()
     setTimeout(()=>{
-      console.log('_renderRanking',this.props.rankingData)
-      _this.setState({rankingData:this.props.rankingData.ranking})
+      console.log('_renderRanking',self.props.rankingData)
+      self.setState({rankingData:self.props.rankingData.ranking})
     },2000)
   }
 

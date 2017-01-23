@@ -53,8 +53,7 @@ export function saveScore(_data,_callback) {
     dispatch(saveScoreRequest());
     let ncmbUtil = new NcmbUtil(
       Constants.APPLICATION_KEY,
-      Constants.CLIENT_KEY,
-      Constants.DATA_CLASS_NAME
+      Constants.CLIENT_KEY
     );
     ncmbUtil.saveScore({
       level:_data.level,
@@ -87,11 +86,14 @@ function saveScoreResult() {
 //=============================================
 // To load the score data from Nifty
 //=============================================
-export function loadRanking() {
+export function loadRanking(_data,_callback) {
   console.log('loadRanking()')
   return dispatch => {
     dispatch(loadRankingRequest());
-    let ncmbUtil = new NcmbUtil(APPLICATION_KEY,CLIENT_KEY,'ScroeClass');
+    let ncmbUtil = new NcmbUtil(
+      Constants.APPLICATION_KEY,
+      Constants.CLIENT_KEY
+    );
     ncmbUtil.loadRanking().then((response)=>{
       console.log('ランキングの取得に成功しました。');
       console.log(response);
@@ -120,16 +122,29 @@ function loadRankingResult(result) {
 //=============================================
 // To register for Nifty
 //=============================================
-
-export function registerUser() {
-  console.log('registerUser()')
+export function registerUser(_username) {
+  console.log('registerUser()',_username)
   return dispatch => {
     dispatch(registerUserRequest());
-    let ncmbUtil = new NcmbUtil(APPLICATION_KEY,CLIENT_KEY,'ScroeClass');
-    // ncmbUtil.loadRanking().then((response)=>{
+    let ncmbUtil = new NcmbUtil(
+      Constants.APPLICATION_KEY,
+      Constants.CLIENT_KEY
+    );
+    ncmbUtil.login(_username).then((response)=>{
+      console.log('ユーザー登録に成功しました。');
+      console.log(response);
+      localStorage.setItem(Constants.APP_PREFIX+'-userName',response.userName)
+      dispatch(registerUserResult(response.userName))
+    },(err)=>{
+      console.log('ユーザー登録に失敗しました。エラー:' + err); 
+      console.log(err)
+    })
+
+    // ncmbUtil.login().then((response)=>{
     //   console.log('ユーザー登録に成功しました。');
     //   console.log(response);
-    //   dispatch(lregisterUserResult(response))
+    //   localStorage.setItem(Constants.APP_PREFIX+'-userName',response.userName)
+    //   dispatch(registerUserResult(response.userName))
     // },(err)=>{
     //   console.log('ユーザー登録に失敗しました。エラー:' + err); 
     //   console.log(err)
@@ -139,13 +154,13 @@ export function registerUser() {
 
 function registerUserRequest() {
   return {
-    type: ActionType.LOAD_RANKING_REQUEST
+    type: ActionType.REGISTER_USER_REQUEST
   };
 }
 
-function lregisterUserResult(result) {
+function registerUserResult(result) {
   return {
-    type: ActionType.LOAD_RANKING_RESULT,
+    type: ActionType.REGISTER_USER_RESULT,
     result
   };
 }

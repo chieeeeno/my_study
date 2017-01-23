@@ -1,4 +1,8 @@
 import React from 'react';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
+
+import * as SampleActions from '../actions/SampleActions'
 
 // import ons from 'onsenui';
 import { Button, Dialog, Input } from 'react-onsenui';
@@ -37,8 +41,6 @@ class Register extends React.Component {
                     float
                     placeholder='Username' />
                 </p>
-                
-                
               </section>
               <Button className="button--small" modifier='cta large' onClick={()=>this._userRegister()}>登録する</Button>
               <Button className="button--small" modifier='outline large' onClick={()=>this._hideModal()}>閉じる</Button>
@@ -91,6 +93,7 @@ class Register extends React.Component {
    */
   _userRegister() {
     console.log('_userRegister')
+    this.props.sampleActions.registerUser(this.state.username)
   }
 
   _handleUsernameChange(e) {
@@ -100,4 +103,25 @@ class Register extends React.Component {
 
 }
 
-export default Register;
+Register.propTypes = {
+  sampleData: React.PropTypes.object,
+  sampleActions: React.PropTypes.object
+};
+
+// state の中に SampleStore.js の combineReducers で指定したキーの State が全部入ってくる
+function mapStateToProps(state) {
+  return {
+    sampleData: state.SampleReducer
+  };
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    sampleActions: bindActionCreators(SampleActions, dispatch)
+  };
+}
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Register);
